@@ -1,0 +1,11 @@
+﻿.vs/
+bin/
+obj/
+packages/
+*.user
+*.suo
+.git_backup*/
+
+# Runtime uploads (keep folder only)
+CampusLostFound/Uploads/*
+!CampusLostFound/Uploads/.gitkeep
