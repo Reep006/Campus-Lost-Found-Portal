@@ -1,0 +1,125 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewBag.Title - Campus Lost &amp; Found Portal</title>
+
+    @Styles.Render("~/Content/css")
+    <link href="@Url.Content("~/Content/Items.css")" rel="stylesheet" />
+
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+    <!-- Main Navigation -->
+    <header class="site-header">
+        <nav class="site-navbar">
+
+            @Html.ActionLink(
+                "Campus Lost & Found",
+                "Index",
+                "Home",
+                new { area = "" },
+                new { @class = "site-brand" }
+            )
+
+            <div class="nav-links">
+
+                @Html.ActionLink(
+                    "Home",
+                    "Index",
+                    "Home",
+                    new { area = "" },
+                    null
+                )
+
+                @Html.ActionLink(
+                    "Browse Items",
+                    "Index",
+                    "Items",
+                    new { area = "" },
+                    null
+                )
+
+                @Html.ActionLink(
+                    "Report Lost",
+                    "CreateLost",
+                    "Items",
+                    new { area = "" },
+                    null
+                )
+
+                @Html.ActionLink(
+                    "Report Found",
+                    "CreateFound",
+                    "Items",
+                    new { area = "" },
+                    null
+                )
+
+                @Html.ActionLink(
+                    "Admin Login",
+                    "Login",
+                    "Admin",
+                    new { area = "" },
+                    null
+                )
+
+            </div>
+        </nav>
+    </header>
+
+    <!-- Global Search Bar -->
+    <section class="global-search-area">
+        <div class="global-search-inner">
+
+            <p class="global-search-title">
+                Find a lost or found item
+            </p>
+
+            @using (Html.BeginForm(
+                "Index",
+                "Items",
+                FormMethod.Get,
+                new { @class = "global-search-form" }))
+            {
+                @Html.TextBox(
+                    "search",
+                    Request.QueryString["search"],
+                    new
+                    {
+                        @class = "global-search-input",
+                        placeholder = "Search by item name, description, or keyword..."
+                    }
+                )
+
+                <button type="submit" class="global-search-button">
+                    Search Items
+                </button>
+            }
+
+        </div>
+    </section>
+
+    <!-- Page Content -->
+    <main class="container body-content">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>
+            &copy; @DateTime.Now.Year Campus Lost &amp; Found Portal
+            | Marwadi University
+        </p>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
