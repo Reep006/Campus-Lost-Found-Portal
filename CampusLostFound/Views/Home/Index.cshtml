@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+}
+
+<div class="home-banner">
+    <h1>Campus Lost &amp; Found</h1>
+    <p>
+        Lost something on campus? Found an item that belongs to someone else?
+        Use this portal to report items and help reunite them with their owners.
+    </p>
+
+    <div class="home-actions">
+        <a href="@Url.Action("CreateLost", "Items")" class="btn btn-primary">
+            Report Lost Item
+        </a>
+
+        <a href="@Url.Action("CreateFound", "Items")" class="btn btn-success">
+            Report Found Item
+        </a>
+    </div>
+</div>
+
+<div class="home-section">
+    <h2>How It Works</h2>
+
+    <div class="home-cards">
+        <div class="home-card">
+            <h3>1. Report an Item</h3>
+            <p>Submit the details of an item you lost or found.</p>
+        </div>
+
+        <div class="home-card">
+            <h3>2. Browse Reports</h3>
+            <p>Search the available reports using item names and categories.</p>
+        </div>
+
+        <div class="home-card">
+            <h3>3. Find a Match</h3>
+            <p>Review possible matches and contact the person listed.</p>
+        </div>
+    </div>
+
+    <p class="browse-link">
+        <a href="@Url.Action("Index", "Items")">Browse All Items</a>
+    </p>
+</div>
