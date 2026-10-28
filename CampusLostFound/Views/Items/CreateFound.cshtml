@@ -1,0 +1,125 @@
+﻿
+@model CampusLostFound.Models.Item
+
+@{
+    ViewBag.Title = "Report Found Item";
+}
+
+<div class="form-page">
+    <h2>Report a Found Item</h2>
+    <p>Provide the details of the item you found on campus.</p>
+
+    @using (Html.BeginForm("Create", "Items", FormMethod.Post,
+        new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ItemType)
+
+        @Html.ValidationSummary(false, "",
+            new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ItemName, "Item Name")
+            @Html.TextBoxFor(m => m.ItemName,
+                new
+                     {
+                         @class = "form-control",
+                      placeholder = "e.g. Black Wallet"
+                     })
+            @Html.ValidationMessageFor(m => m.ItemName, "",
+                new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Category, "Category")
+            @Html.DropDownListFor(m => m.Category,
+                new SelectList(new[]
+                {
+                    "ID Card", "Bag", "Wallet", "Calculator",
+                    "Water Bottle", "Headphones", "Books", "Other"
+                }),
+                "Select Category",
+                new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Category, "",
+                new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Description, "Description")
+            @Html.TextAreaFor(m => m.Description,
+                new
+                     {
+                         @class = "form-control",
+                         rows = "4",
+                      placeholder = "Describe the item and its identifying features"
+                     })
+            @Html.ValidationMessageFor(m => m.Description, "",
+                new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ItemDate, "Date Found")
+            @Html.TextBoxFor(m => m.ItemDate, "{0:yyyy-MM-dd}",
+                new { @class = "form-control", type = "date" })
+            @Html.ValidationMessageFor(m => m.ItemDate, "",
+                new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Location, "Location Found")
+            @Html.TextBoxFor(m => m.Location,
+                new
+                     {
+                         @class = "form-control",
+                      placeholder = "e.g. Library or Computer Lab"
+                     })
+            @Html.ValidationMessageFor(m => m.Location, "",
+                new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ContactName, "Contact Name")
+            @Html.TextBoxFor(m => m.ContactName,
+                new
+                     {
+                         @class = "form-control",
+                      placeholder = "Enter your name"
+                     })
+            @Html.ValidationMessageFor(m => m.ContactName, "",
+                new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ContactInfo, "Contact Information")
+            @Html.TextBoxFor(m => m.ContactInfo,
+                new
+                     {
+                         @class = "form-control",
+                      placeholder = "Phone number or email"
+                     })
+            @Html.ValidationMessageFor(m => m.ContactInfo, "",
+                new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label for="image">Item Image (Optional)</label>
+            <input type="file" id="image" name="image"
+                   class="form-control"
+                   accept=".jpg,.jpeg,.png,.gif" />
+            <small>Allowed formats: JPG, JPEG, PNG and GIF. Maximum size: 5 MB.</small>
+            @Html.ValidationMessage("ImagePath", "",
+                new { @class = "text-danger" })
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Submit Found Report
+        </button>
+
+        <a href="@Url.Action("Index", "Items")"
+           class="btn btn-default">Cancel</a>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
