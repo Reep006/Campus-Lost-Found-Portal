@@ -1,0 +1,164 @@
+﻿
+@model CampusLostFound.Models.Item
+
+@{
+    ViewBag.Title = "Item Details";
+    var matches = ViewBag.Matches as IEnumerable<CampusLostFound.Models.Item>;
+}
+
+<div class="page-heading">
+    <h2>Item Details</h2>
+    <p>View the information about this lost or found item.</p>
+</div>
+
+<div class="details-container">
+
+    <div class="details-image-section">
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Url.Content(Model.ImagePath)"
+                 alt="@Model.ItemName"
+                 class="details-image" />
+        }
+        else
+        {
+            <div class="details-no-image">
+                No Image Available
+            </div>
+        }
+    </div>
+
+    <div class="details-information">
+
+        <span class="item-type @(Model.ItemType == "Lost" ? "lost-label" : "found-label")">
+            @Model.ItemType
+        </span>
+
+        <h2>@Model.ItemName</h2>
+
+        <p>
+            <strong>Category:</strong>
+            @Model.Category
+        </p>
+
+        <p>
+            <strong>Description:</strong>
+            @Model.Description
+        </p>
+
+        <p>
+            <strong>Location:</strong>
+            @Model.Location
+        </p>
+
+        <p>
+            <strong>Date:</strong>
+            @Model.ItemDate.ToString("dd MMM yyyy")
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            @Model.Status
+        </p>
+
+        <p>
+            <strong>Contact Person:</strong>
+            @Model.ContactName
+        </p>
+
+        <p>
+            <strong>Contact Information:</strong>
+            @Model.ContactInfo
+        </p>
+
+        <div class="details-buttons">
+
+            @Html.ActionLink(
+                "Back to Browse Items",
+                "Index",
+                "Items",
+                null,
+                new { @class = "btn-primary" }
+            )
+
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="matches-section">
+    <h2>Potential Matches</h2>
+
+    <p>
+        These items may be related to the item you are viewing.
+        Please compare their details.
+    </p>
+
+    @if (matches != null && matches.Any())
+    {
+        <div class="items-grid">
+            @foreach (var match in matches)
+            {
+                <div class="item-card">
+
+                    @if (!string.IsNullOrEmpty(match.ImagePath))
+                    {
+                        <img src="@Url.Content(match.ImagePath)"
+                             alt="@match.ItemName"
+                             class="item-image" />
+                    }
+                    else
+                    {
+                        <div class="no-image">
+                            No Image Available
+                        </div>
+                    }
+
+                    <div class="item-card-content">
+
+                        <span class="item-type @(match.ItemType == "Lost" ? "lost-label" : "found-label")">
+                            @match.ItemType
+                        </span>
+
+                        <h3>@match.ItemName</h3>
+
+                        <p>
+                            <strong>Category:</strong>
+                            @match.Category
+                        </p>
+
+                        <p>
+                            <strong>Location:</strong>
+                            @match.Location
+                        </p>
+
+                        <p>
+                            <strong>Status:</strong>
+                            @match.Status
+                        </p>
+
+                        @Html.ActionLink(
+                            "View Match Details",
+                            "Details",
+                            "Items",
+                            new { id = match.ItemId },
+                            new { @class = "btn-primary" }
+                        )
+
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="no-items">
+            <h3>No Potential Matches Found</h3>
+            <p>
+                There are currently no similar items.
+                You can check again when more reports are submitted.
+            </p>
+        </div>
+    }
+</div>
