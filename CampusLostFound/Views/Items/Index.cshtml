@@ -1,0 +1,130 @@
+﻿
+@model IEnumerable<CampusLostFound.Models.Item>
+
+@{
+    ViewBag.Title = "Browse Items";
+}
+
+<div class="page-heading">
+    <h2>Browse Lost & Found Items</h2>
+    <p>Search for a lost item or find the owner of an item you found.</p>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="success-message">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="search-box">
+    @using (Html.BeginForm("Index", "Items", FormMethod.Get))
+    {
+        <div class="search-row">
+            <input type="text"
+                   name="search"
+                   value="@ViewBag.Search"
+                   placeholder="Search by item name..." />
+
+            <select name="category">
+                <option value="">All Categories</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Books">Books</option>
+                <option value="ID Cards">ID Cards</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Bags">Bags</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <select name="type">
+                <option value="">Lost and Found</option>
+                <option value="Lost"
+                        @(ViewBag.Type == "Lost" ? "selected" : "")>
+                    Lost Items
+                </option>
+                <option value="Found"
+                        @(ViewBag.Type == "Found" ? "selected" : "")>
+                    Found Items
+                </option>
+            </select>
+
+            <button type="submit" class="btn-primary">
+                Search
+            </button>
+        </div>
+    }
+</div>
+
+<div class="items-grid">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="item-card">
+
+                @if (!string.IsNullOrEmpty(item.ImagePath))
+                {
+                    <img src="@Url.Content(item.ImagePath)"
+                         alt="@item.ItemName"
+                         class="item-image" />
+                }
+                else
+                {
+                    <div class="no-image">
+                        No Image Available
+                    </div>
+                }
+
+                <div class="item-card-content">
+
+                    <span class="item-type @(item.ItemType == "Lost" ? "lost-label" : "found-label")">
+                        @item.ItemType
+                    </span>
+
+                    <h3>@item.ItemName</h3>
+
+                    <p>
+                        <strong>Category:</strong> @item.Category
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong> @item.Location
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        @item.ItemDate.ToString("dd MMM yyyy")
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong> @item.Status
+                    </p>
+
+                    @Html.ActionLink(
+                        "View Details",
+                        "Details",
+                        "Items",
+                        new { id = item.ItemId },
+                        new { @class = "btn-primary details-button" }
+                    )
+
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="no-items">
+            <h3>No items found</h3>
+            <p>Try another search or report a lost or found item.</p>
+
+            @Html.ActionLink("Report Lost Item",
+                "CreateLost", "Items",
+                null, new { @class = "btn-primary" })
+
+            @Html.ActionLink("Report Found Item",
+                "CreateFound", "Items",
+                null, new { @class = "btn-secondary" })
+        </div>
+    }
+</div>
