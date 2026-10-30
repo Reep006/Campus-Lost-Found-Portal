@@ -1,0 +1,145 @@
+﻿
+@model IEnumerable<CampusLostFound.Models.Item>
+
+@{
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<div class="container mt-4">
+    <h2>Admin Dashboard</h2>
+
+    <p>
+        Welcome,
+        <strong>@Session["AdminUsername"]</strong>
+    </p>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info">
+            @TempData["Message"]
+        </div>
+    }
+
+    <div class="mb-3">
+        @Html.ActionLink(
+            "View Public Portal",
+            "Index",
+            "Home",
+            null,
+            new { @class = "btn btn-secondary" })
+
+        @using (Html.BeginForm("Logout", "Admin", FormMethod.Post,
+            new { style = "display:inline-block; margin-left:8px;" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="btn btn-danger">
+                Logout
+            </button>
+        }
+    </div>
+
+    <h4>All Lost & Found Reports</h4>
+
+    @if (Model == null || !Model.Any())
+    {
+        <p>No item reports have been submitted yet.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Item Name</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ItemId</td>
+
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(item.ImagePath))
+                                {
+                                    <img src="@Url.Content(item.ImagePath)"
+                                         alt="Item image"
+                                         style="width:70px;height:60px;object-fit:cover;" />
+                                }
+                                else
+                                {
+                                    <span>No image</span>
+                                }
+                            </td>
+
+                            <td>@item.ItemName</td>
+                            <td>@item.Category</td>
+                            <td>@item.ItemType</td>
+                            <td>@item.Location</td>
+                            <td>@item.Status</td>
+
+                            <td>
+                                @Html.ActionLink(
+                                    "View",
+                                    "Details",
+                                    "Items",
+                                    new { id = item.ItemId },
+                                    new { @class = "btn btn-info btn-sm" })
+
+                                @Html.ActionLink(
+                                    "Edit",
+                                    "Edit",
+                                    "Items",
+                                    new { id = item.ItemId },
+                                    new { @class = "btn btn-primary btn-sm" })
+
+                                @if (item.Status != "Returned")
+                                {
+                                    using (Html.BeginForm(
+                                        "MarkReturned",
+                                        "Items",
+                                        new { id = item.ItemId },
+                                        FormMethod.Post,
+                                        new { style = "display:inline-block;" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit"
+                                                class="btn btn-success btn-sm">
+                                            Mark Returned
+                                        </button>
+                                    }
+                                }
+
+                                @using (Html.BeginForm(
+                                    "Delete",
+                                    "Items",
+                                    new { id = item.ItemId },
+                                    FormMethod.Post,
+                                    new { style = "display:inline-block;" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Delete this report?');">
+                                        Delete
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
