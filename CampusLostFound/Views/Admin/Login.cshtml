@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Admin Login";
+}
+
+<div class="admin-login-container">
+    <div class="admin-login-card">
+
+        <h2>Admin Login</h2>
+
+        <p>Sign in to manage lost and found reports.</p>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="login-error">
+                @ViewBag.Error
+            </div>
+        }
+
+        @using (Html.BeginForm("Login", "Admin", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label for="username">Username</label>
+
+                <input type="text"
+                       id="username"
+                       name="username"
+                       class="form-control"
+                       placeholder="Enter admin username"
+                       maxlength="50"
+                       required />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <input type="password"
+                       id="password"
+                       name="password"
+                       class="form-control"
+                       placeholder="Enter admin password"
+                       required />
+            </div>
+
+            <button type="submit"
+                    class="btn-primary login-button">
+                Login
+            </button>
+        }
+
+        <div class="login-back">
+            @Html.ActionLink("Back to Home", "Index", "Home")
+        </div>
+
+    </div>
+</div>
