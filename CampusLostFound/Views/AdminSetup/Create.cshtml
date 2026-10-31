@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Create Admin Account";
+}
+
+<div class="admin-login-container">
+    <div class="admin-login-card">
+
+        <h2>Create Admin Account</h2>
+
+        <p>Create the first administrator account for the portal.</p>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="login-error">
+                @ViewBag.Error
+            </div>
+        }
+
+        @using (Html.BeginForm("Create", "AdminSetup", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text"
+                       id="username"
+                       name="username"
+                       class="form-control"
+                       maxlength="50"
+                       required />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password"
+                       id="password"
+                       name="password"
+                       class="form-control"
+                       minlength="8"
+                       required />
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password"
+                       id="confirmPassword"
+                       name="confirmPassword"
+                       class="form-control"
+                       minlength="8"
+                       required />
+            </div>
+
+            <button type="submit"
+                    class="btn-primary login-button">
+                Create Admin Account
+            </button>
+        }
+
+    </div>
+</div>
