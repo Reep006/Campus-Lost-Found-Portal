@@ -17,3 +17,25 @@ A web portal where students can report lost and found items on campus.
 - C# and Razor views
 - SQL Server LocalDB (ADO.NET)
 - Bootstrap 5.2.3, jQuery 3.7.0
+
+## Project Structure
+
+```
+CampusLostFound/
+  App_Start/     Routing, filters, bundles
+  Controllers/   Home, Items, Admin, AdminSetup
+  Models/        Item, Admin, ItemRepository, MatchService
+  Views/         Razor views
+  Content/       CSS files
+  Scripts/       JavaScript libraries
+  Uploads/       Uploaded item images (not tracked)
+docs/            Setup and user guides
+```
+
+## Team
+
+| Member   | Role                        |
+|----------|-----------------------------|
+| Reep     | Backend, models, controllers |
+| Jeel     | Views and UI layout          |
+| Utkarsh  | Styling, forms and docs      |
