@@ -31,11 +31,3 @@ CampusLostFound/
   Uploads/       Uploaded item images (not tracked)
 docs/            Setup and user guides
 ```
-
-## Team
-
-| Member   | Role                        |
-|----------|-----------------------------|
-| Reep     | Backend, models, controllers |
-| Jeel     | Views and UI layout          |
-| Utkarsh  | Styling, forms and docs      |
